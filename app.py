@@ -32,9 +32,9 @@ if 'input_text' not in st.session_state:
 # Selection box for choosing the type of news generation
 option = st.selectbox("Select the type of news generation:", 
                       ["Enter English News Text to Translate to Marathi", 
-                       "मराठी बातमी लेख तयार करण्यासाठी मराठी मजकूर प्रविष्ट करा"],
+                       "मराठी बातमी लेख तयार करण्यासाठी मराठीत माहिती द्या"],
                       index=["Enter English News Text to Translate to Marathi", 
-                             "मराठी बातमी लेख तयार करण्यासाठी मराठी मजकूर प्रविष्ट करा"].index(st.session_state.option))
+                             "मराठी बातमी लेख तयार करण्यासाठी मराठीत माहिती द्या"].index(st.session_state.option))
 
 # Check if the selected option has changed
 if option != st.session_state.option:
@@ -43,14 +43,18 @@ if option != st.session_state.option:
     st.experimental_rerun()  # Refresh the page to clear the input field
 
 # Input text box
-input_text = st.text_area("Enter your text below:", value=st.session_state.input_text, height=300)
+input_label = "Enter your text below:" if option == "Enter English News Text to Translate to Marathi" else "खालील बॉक्समध्ये तुमचा मजकूर प्रविष्ट करा"
+input_text = st.text_area(input_label, value=st.session_state.input_text, height=300)
 
 # Update session state with current input
 st.session_state.input_text = input_text
 
 if st.button("Generate Marathi News"):
     if len(input_text) < 50:
-        st.error("Please enter at least 50 characters to generate the news.")
+        if option == "Enter English News Text to Translate to Marathi":
+            st.error("Please enter at least 50 characters to generate the news.")
+        else:
+            st.error("कृपया बातमी तयार करण्यासाठी किमान ५० अक्षरे प्रविष्ट करा.")
     else:
         if input_text:
             lang = detect(input_text)
@@ -80,11 +84,11 @@ if st.button("Generate Marathi News"):
                             file_name="generated_marathi_news.txt",
                             mime="text/plain")
 
-            elif option == "मराठी बातमी लेख तयार करण्यासाठी मराठी मजकूर प्रविष्ट करा":
+            elif option == "मराठी बातमी लेख तयार करण्यासाठी मराठीत माहिती द्या":
                 if lang != "mr":
-                    st.warning("Please enter only Marathi text to generate Marathi news article.")
+                    st.warning("कृपया मराठीत माहिती द्या.")
                 else:
-                    with st.spinner("Please wait, we are generating Marathi news article..."):
+                    with st.spinner("कृपया थांबा, आम्ही मराठी बातमी लेख तयार करत आहोत..."):
                         chain = prompt_bullet | chat
                         response = chain.invoke({"text": input_text})
                         
@@ -98,7 +102,7 @@ if st.button("Generate Marathi News"):
                         result = "\n".join(line for line in result.splitlines() if line.strip())
                         
                         # Display the result
-                        st.subheader("The output has been generated, please download by clicking the button below.")
+                        st.subheader("मराठी मजकूर तयार झाला आहे, कृपया खाली दिलेल्या बटणावर क्लिक करून डाउनलोड करा.")
                         st.download_button(
                             label="Download Response",
                             data=result,
