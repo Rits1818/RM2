@@ -16,7 +16,7 @@ with col1:
 
 
 # Initialize the chat model
-chat = ChatGroq(temperature=0.4, model_name="llama-3.1-70b-versatile", max_tokens=8000)
+chat = ChatGroq(temperature=0.3, model_name="llama-3.1-70b-versatile", max_tokens=8000)
 
 # Define system and human messages for both options
 system_text = """You are an editor for a Marathi newspaper. Your task is to generate accurate Marathi news content from the following English news while preserving the original meaning and context. 
