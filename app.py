@@ -24,10 +24,10 @@ prompt_bullet = ChatPromptTemplate.from_messages([("system", system_bullet), ("h
 st.markdown("<h1 style='text-align: center;'>Marathi News Generator</h1>", unsafe_allow_html=True)
 
 # Selection box for choosing the type of news generation
-option = st.selectbox("Select the type of news generation:", ("Enter English News Text to Translate to Marathi", "Enter Marathi text for creating Marathi News Article"))
+option = st.selectbox("Select the type of news generation:", ("Enter English News Text to Translate to Marathi", "मराठी बातमी लेख तयार करण्यासाठी मराठी मजकूर प्रविष्ट करा"))
 
 # Input text box
-input_text = st.text_area("Enter English News Text or Bullet Points:", height=300)
+input_text = st.text_area("Enter your text below:", height=300)
 
 if st.button("Generate Marathi News"):
     if len(input_text) < 50:
@@ -62,7 +62,7 @@ if st.button("Generate Marathi News"):
                             file_name="generated_marathi_news.txt",
                             mime="text/plain")
 
-            elif option == "Enter Marathi text for creating Marathi News Article":
+            elif option == "मराठी बातमी लेख तयार करण्यासाठी मराठी मजकूर प्रविष्ट करा":
                 if lang != "mr":
                     st.warning("Please enter only Marathi text to generate Marathi news article.")
                 else:
