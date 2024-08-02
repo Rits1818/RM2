@@ -64,7 +64,7 @@ if st.button("Generate Marathi News"):
 
             elif option == "Enter Marathi text for creating Marathi News Article":
                 if lang != "mr":
-                    st.warning("Please enter Enter Marathi tex for Marathi news generation.")
+                    st.warning("Please enter Enter Marathi text for Marathi news generation.")
                 else:
                     with st.spinner("Please wait, we are generating Marathi News..."):
                         chain = prompt_bullet | chat
