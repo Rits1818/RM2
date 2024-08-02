@@ -5,57 +5,18 @@ from langdetect import detect
 
 # Add logo and header in a container
 
-st.markdown(
-    '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">',
-    unsafe_allow_html=True
-)
+ # Path to your logo image
+logo_path = "cloudmantra_logo1.png"
 
-st.markdown(
-    """
-    <style>
-    .navbar {
-        padding: 0;
-        margin-top: -75px;
-        height: 0;
-        margin-left : -380px;
-        width: 100%;
-        z-index: 9999; / Ensure the navbar is on top /
-        position: sticky;
-    }
-    .navbar-brand {
-        margin: 0; / Remove default margin /
-    }
-    .navbar-brand img {
-        width: 150px;
-        height: auto;
-    }
-    body {
-        padding-top: 70px; / Adjust padding to avoid content overlap /
-    }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
+# Create columns for logo and content
+col1, col2 = st.columns([1, 5])  # Adjust the column widths as needed
 
-
-st.markdown(
-    """
-
-    <!-- Just an image -->
-    <nav class="navbar navbar-light  ">
-    <a class="navbar-brand" href="https://marathi.streamlit.app/">
-        <img src="https://mymcqtest.s3.amazonaws.com/logo.png" width="300" height="200" alt="">
-    </a>
-    </nav>
-
-
-    """,
-    unsafe_allow_html=True
-)
+with col1:
+    st.image(logo_path, width=100)  # Adjust the width as needed
 
 
 # Initialize the chat model
-chat = ChatGroq(temperature=0.4, model_name="llama-3.1-70b-versatile", max_tokens=8000)
+chat = ChatGroq(temperature=0.5, model_name="llama-3.1-70b-versatile", max_tokens=8000)
 
 # Define system and human messages for both options
 system_text = """You are an editor for a Marathi newspaper. Your task is to generate accurate Marathi news content from the following English news while preserving the original meaning and context. 
