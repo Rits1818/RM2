@@ -23,11 +23,30 @@ prompt_bullet = ChatPromptTemplate.from_messages([("system", system_bullet), ("h
 # Define the Streamlit app
 st.markdown("<h1 style='text-align: center;'>Marathi News Generator</h1>", unsafe_allow_html=True)
 
+# Initialize session state
+if 'option' not in st.session_state:
+    st.session_state.option = "Enter English News Text to Translate to Marathi"
+if 'input_text' not in st.session_state:
+    st.session_state.input_text = ""
+
 # Selection box for choosing the type of news generation
-option = st.selectbox("Select the type of news generation:", ("Enter English News Text to Translate to Marathi", "मराठी बातमी लेख तयार करण्यासाठी मराठी मजकूर प्रविष्ट करा"))
+option = st.selectbox("Select the type of news generation:", 
+                      ["Enter English News Text to Translate to Marathi", 
+                       "मराठी बातमी लेख तयार करण्यासाठी मराठी मजकूर प्रविष्ट करा"],
+                      index=["Enter English News Text to Translate to Marathi", 
+                             "मराठी बातमी लेख तयार करण्यासाठी मराठी मजकूर प्रविष्ट करा"].index(st.session_state.option))
+
+# Check if the selected option has changed
+if option != st.session_state.option:
+    st.session_state.option = option
+    st.session_state.input_text = ""  # Clear the input text
+    st.experimental_rerun()  # Refresh the page to clear the input field
 
 # Input text box
-input_text = st.text_area("Enter your text below:", height=300)
+input_text = st.text_area("Enter your text below:", value=st.session_state.input_text, height=300)
+
+# Update session state with current input
+st.session_state.input_text = input_text
 
 if st.button("Generate Marathi News"):
     if len(input_text) < 50:
@@ -40,7 +59,7 @@ if st.button("Generate Marathi News"):
                 if lang != "en":
                     st.warning("Please enter only English text for Marathi news article.")
                 else:
-                    with st.spinner("Please wait, we are generating Marathi News..."):
+                    with st.spinner("Please wait, we are generating Marathi news article..."):
                         chain = prompt_text | chat
                         response = chain.invoke({"text": input_text})
                         
@@ -54,7 +73,6 @@ if st.button("Generate Marathi News"):
                         result = "\n".join(line for line in result.splitlines() if line.strip())
                         
                         # Display the result
-                        # st.subheader("Generated Marathi News:")
                         st.subheader("The output has been generated, please download by clicking the button below.")
                         st.download_button(
                             label="Download Response",
@@ -66,7 +84,7 @@ if st.button("Generate Marathi News"):
                 if lang != "mr":
                     st.warning("Please enter only Marathi text to generate Marathi news article.")
                 else:
-                    with st.spinner("Please wait, we are generating Marathi News..."):
+                    with st.spinner("Please wait, we are generating Marathi news article..."):
                         chain = prompt_bullet | chat
                         response = chain.invoke({"text": input_text})
                         
@@ -80,7 +98,6 @@ if st.button("Generate Marathi News"):
                         result = "\n".join(line for line in result.splitlines() if line.strip())
                         
                         # Display the result
-                        # st.subheader("Generated Marathi News:")
                         st.subheader("The output has been generated, please download by clicking the button below.")
                         st.download_button(
                             label="Download Response",
