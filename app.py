@@ -3,6 +3,57 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_groq import ChatGroq
 from langdetect import detect
 
+# Add logo and header in a container
+
+st.markdown(
+    '<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.1.3/dist/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">',
+    unsafe_allow_html=True
+)
+
+st.markdown(
+    """
+    <style>
+    .navbar {
+        padding: 0;
+        margin-top: -75px;
+        height: 0;
+        margin-left : -380px;
+        width: 100%;
+        z-index: 9999; / Ensure the navbar is on top /
+        position: sticky;
+    }
+    .navbar-brand {
+        margin: 0; / Remove default margin /
+    }
+    .navbar-brand img {
+        width: 150px;
+        height: auto;
+    }
+    body {
+        padding-top: 70px; / Adjust padding to avoid content overlap /
+    }
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
+
+st.markdown(
+    """
+
+    <!-- Just an image -->
+    <nav class="navbar navbar-light  ">
+    <a class="navbar-brand" href="https://marathi.streamlit.app/">
+        <img src="https://mymcqtest.s3.amazonaws.com/logo.png" width="300" height="200" alt="">
+    </a>
+    </nav>
+
+
+    """,
+    unsafe_allow_html=True
+)
+
+
 # Initialize the chat model
 chat = ChatGroq(temperature=0.5, model_name="llama-3.1-70b-versatile", max_tokens=8000)
 
@@ -11,8 +62,8 @@ system_text = """You are an editor for a Marathi newspaper. Your task is to gene
 Use the language and style typically used in Marathi newspapers. Ensure that the Marathi text is grammatically correct and culturally appropriate. If certain terms or phrases are commonly used in English, retain them in English.
 Do not exact translate; use your knowledge to adapt the content as needed."""
 
-system_bullet = """You are an editor for a Marathi newspaper. Your task is to create a detailed and accurate Marathi news article based on the following bullet points, while preserving the original meaning and context. The article should be descriptive, using the language and style typically found in Marathi newspapers.
-Ensure the Marathi text is grammatically correct and culturally appropriate. Do not simply copy the bullet points; instead, expand on them to create a coherent and engaging news story. You may add additional context and information to make the article more comprehensive and relatable. Use your knowledge and expertise to adapt the content as needed."""
+system_bullet = """You are an editor for a Marathi newspaper. Your task is to create a detailed and accurate Marathi news article based on the provided input, which may be in the form of single or multiple sentences, bullet points, or keywords. The article should preserve the original meaning and context, using the language and style typically found in Marathi newspapers. Ensure the Marathi text is grammatically correct and culturally appropriate.
+Do not add any non-factual information or overly dramatize the situation. Stick to the provided facts and context, expanding on them to create a coherent and engaging news story. Ensure that all added context and information is factual and enhances the reader's understanding of the news. Use your knowledge and expertise to adapt the content as needed without altering the core facts."""
 
 human = "{text}"
 
