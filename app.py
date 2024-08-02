@@ -23,7 +23,7 @@ system_text = """You are an editor for a Marathi newspaper. Your task is to gene
 Use the language and style typically used in Marathi newspapers. Ensure that the Marathi text is grammatically correct and culturally appropriate. If certain terms or phrases are commonly used in English, retain them in English.
 Do not exact translate; use your knowledge to adapt the content as needed."""
 
-system_bullet = """You are an editor for a Marathi newspaper. Write a detailed and accurate news article in Marathi based on the provided information. Use the usual language and style of Marathi newspapers. Make sure the text is grammatically correct. Do not add any extra information not mentioned in the input. Stick strictly to the provided details and do not invent any information. Keep the article short and to the point."""
+system_bullet = """You are an editor for a Marathi newspaper. Write a detailed and accurate news article in Marathi based on the provided information. Use the usual language and style of Marathi newspapers. Make sure the text is grammatically correct. Do not add any extra information not mentioned in the input. Stick strictly to the provided details and do not invent any information. Keep the article short if input is less number of words."""
 
 human = "{text}"
 
