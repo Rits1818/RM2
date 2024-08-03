@@ -5,7 +5,7 @@ from langdetect import detect
 
 # Add logo and header in a container
 
- # Path to your logo image
+# Path to your logo image
 logo_path = "cloudmantra_logo1.png"
 
 # Create columns for logo and content
@@ -14,17 +14,21 @@ col1, col2 = st.columns([1, 5])  # Adjust the column widths as needed
 with col1:
     st.image(logo_path, width=110)  # Adjust the width as needed
 
-
-# Initialize the chat model
-chat = ChatGroq(temperature=0.3, model_name="llama-3.1-70b-versatile", max_tokens=8000)
+# Initialize the chat models
+chat_text = ChatGroq(temperature=0.5, model_name="llama-3.1-70b-versatile", max_tokens=8000)
+chat_bullet = ChatGroq(temperature=0.05, model_name="llama-3.1-70b-versatile", max_tokens=8000)
 
 # Define system and human messages for both options
 system_text = """You are an editor for a Marathi newspaper. Your task is to generate accurate Marathi news content from the following English news while preserving the original meaning and context. 
 Use the language and style typically used in Marathi newspapers. Ensure that the Marathi text is grammatically correct and culturally appropriate. If certain terms or phrases are commonly used in English, retain them in English.
 Do not exact translate; use your knowledge to adapt the content as needed."""
 
-system_bullet = """You are an editor for a Marathi newspaper. Write a detailed and accurate news article in Marathi based on the provided information. Use the usual language and style of Marathi newspapers. Make sure the text is grammatically correct. Do not add any extra information not mentioned in the input. Stick strictly to the provided details and do not invent any information. Keep the article short if input is less number of words."""
-
+system_bullet = """
+You are an editor for a Marathi newspaper. Rewrite the provided information into a clear and concise news article in Marathi. 
+Ensure the article is factually accurate and does not include any information not mentioned in the input. 
+Do not add any information that is not provided. Avoid repetition and unnecessary details. Use the usual language and style of Marathi newspapers. 
+Make sure the text is grammatically correct and short, focusing on the main points only.It is mandatory 
+"""
 human = "{text}"
 
 # Create the prompt templates
@@ -61,6 +65,10 @@ input_text = st.text_area(input_label, value=st.session_state.input_text, height
 st.session_state.input_text = input_text
 
 if st.button("Generate Marathi News"):
+    # Automatically clear cache
+    st.cache_data.clear()
+    st.cache_resource.clear()
+    
     if len(input_text) < 50:
         if option == "Enter English News Text to Translate to Marathi":
             st.error("Please enter at least 50 characters to generate the news.")
@@ -75,7 +83,7 @@ if st.button("Generate Marathi News"):
                     st.warning("Please enter only English text for Marathi news article.")
                 else:
                     with st.spinner("Please wait, we are generating Marathi news article..."):
-                        chain = prompt_text | chat
+                        chain = prompt_text | chat_text
                         response = chain.invoke({"text": input_text})
                         
                         # Check if response has the content attribute
@@ -100,7 +108,7 @@ if st.button("Generate Marathi News"):
                     st.warning("कृपया मराठीत माहिती द्या.")
                 else:
                     with st.spinner("कृपया थांबा, आम्ही मराठी बातमी लेख तयार करत आहोत..."):
-                        chain = prompt_bullet | chat
+                        chain = prompt_bullet | chat_bullet
                         response = chain.invoke({"text": input_text})
                         
                         # Check if response has the content attribute
