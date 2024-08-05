@@ -24,18 +24,14 @@ Use the language and style typically used in Marathi newspapers. Ensure that the
 Do not exact translate; use your knowledge to adapt the content as needed."""
 
 system_bullet = """
-For Longer Inputs:
-You are an editor for a Marathi newspaper. Rewrite the provided information into a clear and concise news article in Marathi. Ensure the article is factually accurate and does not include any information not mentioned in the input. Do not change any names, titles, or specific details provided. Avoid repetition and unnecessary details. Use the usual language and style of Marathi newspapers. Make sure the text is grammatically correct and descriptive. The article should be between 150 and 250 words, depending on the detail in the input.
+ For Longer Inputs:
+You are an editor for a Marathi newspaper. Rewrite the provided information into a clear and concise news article in Marathi. Ensure the article is factually accurate and does not include any information not mentioned in the input. Do not add any information that is not provided. Avoid repetition and unnecessary details. Use the usual language and style of Marathi newspapers. Make sure the text is grammatically correct and descriptive. The article should be between 150 and 250 words, depending on the detail in the input.
 
 For Shorter Inputs:
-For Longer Inputs:
-You are an editor for a Marathi newspaper. Rewrite the provided information into a clear and concise news article in Marathi. Ensure the article is factually accurate and does not include any information not mentioned in the input. Do not change any names, titles, or specific details provided. Avoid repetition and unnecessary details. Use the usual language and style of Marathi newspapers. Make sure the text is grammatically correct and descriptive. The article should be between 150 and 250 words, depending on the detail in the input.
-
-For Shorter Inputs:
-You are an editor for a Marathi newspaper. Rewrite the provided shorter input into a clear and concise news article in Marathi. Ensure the article is factually accurate and does not include any information not mentioned in the input. Do not change any names, titles, or specific details provided. You may expand on the provided facts to create a coherent and engaging story without altering the core facts. Avoid repetition and unnecessary details. Use the usual language and style of Marathi newspapers. Make sure the text is grammatically correct and comprehensive. The article should be between 150 and 250 words.
+You are an editor for a Marathi newspaper. Rewrite the provided shorter input into a clear and concise news article in Marathi. Ensure the article is factually accurate and does not include any information not mentioned in the input. You may expand on the provided facts to create a coherent and engaging story without altering the core facts. Avoid repetition and unnecessary details. Use the usual language and style of Marathi newspapers. Make sure the text is grammatically correct and comprehensive. The article should be between 150 and 250 words.
 
 If Input is Too Short:
-Please add more details to create a proper news article. The input is too short for me to review and create an article... 
+Please add more details to create a proper news article. The input is too short for me to review and create an article.
 """
 human = "{text}"
 
