@@ -69,11 +69,11 @@ if st.button("Generate Marathi News"):
     st.cache_data.clear()
     st.cache_resource.clear()
     
-    if len(input_text) < 50:
+    if len(input_text.split()) < 50:
         if option == "Enter English News Text to Translate to Marathi":
-            st.error("Please enter at least 50 characters to generate the news.")
+            st.error("Please enter at least 50 Words to generate the news.")
         else:
-            st.error("कृपया बातमी तयार करण्यासाठी किमान ५० अक्षरे प्रविष्ट करा.")
+            st.error("कृपया बातमी तयार करण्यासाठी किमान ५० शब्द प्रविष्ट करा.")
     else:
         if input_text:
             lang = detect(input_text)
