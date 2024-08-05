@@ -27,13 +27,18 @@ system_bullet = """
 You are an editor for a Marathi newspaper. Rewrite the provided information into a clear and concise news article in Marathi. 
 Ensure the article is factually accurate and does not include any information not mentioned in the input. 
 Do not add any information that is not provided. Avoid repetition and unnecessary details. Use the usual language and style of Marathi newspapers. 
-Make sure the text is grammatically correct and short,It is mandatory focusing on the main points only.
+Make sure the text is grammatically correct and short, focusing on the main points only.It is mandatory 
 """
+
+system_tags = """You are an expert in SEO and keyword optimization. I need your help to generate a list of highly relevant SEO tags for an English news article. 
+The SEO tags should capture various aspects of the article's topic to enhance its search engine ranking. Please ensure the tags are comprehensive, cover different angles of the content, and are naturally integrated without appearing forced. Provide the tags in English, formatted as a list."""
+
 human = "{text}"
 
 # Create the prompt templates
 prompt_text = ChatPromptTemplate.from_messages([("system", system_text), ("human", human)])
 prompt_bullet = ChatPromptTemplate.from_messages([("system", system_bullet), ("human", human)])
+prompt_tags = ChatPromptTemplate.from_messages([("system", system_tags), ("human", human)])
 
 # Define the Streamlit app
 st.markdown("<h1 style='text-align: center;'>Marathi News Generator</h1>", unsafe_allow_html=True)
@@ -47,9 +52,11 @@ if 'input_text' not in st.session_state:
 # Selection box for choosing the type of news generation
 option = st.selectbox("Select the type of news generation:", 
                       ["Enter English News Text to Translate to Marathi", 
-                       "मराठी बातमी लेख तयार करण्यासाठी मराठीत माहिती द्या"],
+                       "मराठी बातमी लेख तयार करण्यासाठी मराठीत माहिती द्या",
+                       "SEO keywords तयार करण्यासाठी मराठीत माहिती द्या"],
                       index=["Enter English News Text to Translate to Marathi", 
-                             "मराठी बातमी लेख तयार करण्यासाठी मराठीत माहिती द्या"].index(st.session_state.option))
+                             "मराठी बातमी लेख तयार करण्यासाठी मराठीत माहिती द्या",
+                             "SEO keywords तयार करण्यासाठी मराठीत माहिती द्या"].index(st.session_state.option))
 
 # Check if the selected option has changed
 if option != st.session_state.option:
@@ -57,76 +64,106 @@ if option != st.session_state.option:
     st.session_state.input_text = ""  # Clear the input text
     st.experimental_rerun()  # Refresh the page to clear the input field
 
-# Input text box
-input_label = "Enter your text below:" if option == "Enter English News Text to Translate to Marathi" else "खालील बॉक्समध्ये तुमचा मजकूर प्रविष्ट करा"
+# Input text box label based on selected option
+if option == "Enter English News Text to Translate to Marathi":
+    input_label = "Enter your text below:"
+elif option == "मराठी बातमी लेख तयार करण्यासाठी मराठीत माहिती द्या":
+    input_label = "खालील बॉक्समध्ये तुमचा मजकूर प्रविष्ट करा"
+else:  # Handles the third condition
+    input_label = "खालील बॉक्समध्ये तुमचा मजकूर प्रविष्ट करा"
+
 input_text = st.text_area(input_label, value=st.session_state.input_text, height=300)
 
 # Update session state with current input
 st.session_state.input_text = input_text
 
-if st.button("Generate Marathi News"):
-    # Automatically clear cache
-    st.cache_data.clear()
-    st.cache_resource.clear()
-    
-    if len(input_text.split()) < 40:
-        if option == "Enter English News Text to Translate to Marathi":
-            st.error("Please enter at least 40 Words to generate the news.")
+# Button and result handling based on option selected
+if option == "SEO keywords तयार करण्यासाठी मराठीत माहिती द्या":
+    if st.button("Generate SEO Keywords"):
+        if len(input_text) < 50:
+            st.error("कृपया SEO keywords तयार करण्यासाठी किमान ५० अक्षरे प्रविष्ट करा.")
         else:
-            st.error("कृपया बातमी तयार करण्यासाठी किमान ४0 शब्द प्रविष्ट करा.")
-    else:
-        if input_text:
             lang = detect(input_text)
-            
-            if option == "Enter English News Text to Translate to Marathi":
-                if lang != "en":
-                    st.warning("Please enter only English text for Marathi news article.")
-                else:
-                    with st.spinner("Please wait, we are generating Marathi news article..."):
-                        chain = prompt_text | chat_text
-                        response = chain.invoke({"text": input_text})
-                        
-                        # Check if response has the content attribute
-                        if hasattr(response, 'content'):
-                            result = response.content
-                        else:
-                            result = str(response)
-                        
-                        # Remove extra blank lines
-                        result = "\n".join(line for line in result.splitlines() if line.strip())
-                        
-                        # Display the result
-                        st.subheader("The output has been generated, please download by clicking the button below.")
-                        st.download_button(
-                            label="Download Response",
-                            data=result,
-                            file_name="generated_marathi_news.txt",
-                            mime="text/plain")
+            if lang != "mr":
+                st.warning("कृपया मराठीत माहिती द्या")
+            else:
+                with st.spinner("कृपया थांबा, आम्ही SEO keywords तयार करत आहोत..."):
+                    chain = prompt_tags | chat_text
+                    response = chain.invoke({"text": input_text})
 
-            elif option == "मराठी बातमी लेख तयार करण्यासाठी मराठीत माहिती द्या":
-                if lang != "mr":
-                    st.warning("कृपया मराठीत माहिती द्या.")
-                else:
-                    with st.spinner("कृपया थांबा, आम्ही मराठी बातमी लेख तयार करत आहोत..."):
-                        chain = prompt_bullet | chat_bullet
-                        response = chain.invoke({"text": input_text})
-                        
-                        # Check if response has the content attribute
-                        if hasattr(response, 'content'):
-                            result = response.content
-                        else:
-                            result = str(response)
-                        
-                        # Remove extra blank lines
-                        result = "\n".join(line for line in result.splitlines() if line.strip())
-                        
-                        # Display the result
-                        st.subheader("मराठी मजकूर तयार झाला आहे, कृपया खाली दिलेल्या बटणावर क्लिक करून डाउनलोड करा.")
-                        st.download_button(
-                            label="Download Response",
-                            data=result,
-                            file_name="generated_marathi_news.txt",
-                            mime="text/plain")
+                    # Check if response has the content attribute
+                    if hasattr(response, 'content'):
+                        result = response.content
+                    else:
+                        result = str(response)
 
+                    # Remove extra blank lines
+                    # result = "\n".join(line for line in result.splitlines() if line.strip())
+
+                    # Display the result
+                    st.subheader("SEO keywords तयार झाले आहेत, कृपया खाली दिलेल्या बटणावर क्लिक करून डाउनलोड करा.")
+                    st.download_button(
+                        label="Download Response",
+                        data=result,
+                        file_name="generated_seo_keywords.txt",
+                        mime="text/plain")
+
+elif option == "Enter English News Text to Translate to Marathi":
+    if st.button("Generate Marathi News"):
+        if len(input_text) < 50:
+            st.error("Please enter at least 50 characters to generate the news.")
         else:
-            st.error("Please enter some text to generate the news.")
+            lang = detect(input_text)
+            if lang != "en":
+                st.warning("Please enter only English text for Marathi news article.")
+            else:
+                with st.spinner("Please wait, we are generating Marathi news article..."):
+                    chain = prompt_text | chat_text
+                    response = chain.invoke({"text": input_text})
+
+                    # Check if response has the content attribute
+                    if hasattr(response, 'content'):
+                        result = response.content
+                    else:
+                        result = str(response)
+
+                    # Remove extra blank lines
+                    result = "\n".join(line for line in result.splitlines() if line.strip())
+
+                    # Display the result
+                    st.subheader("The output has been generated, please download by clicking the button below.")
+                    st.download_button(
+                        label="Download Response",
+                        data=result,
+                        file_name="generated_marathi_news.txt",
+                        mime="text/plain")
+
+elif option == "मराठी बातमी लेख तयार करण्यासाठी मराठीत माहिती द्या":
+    if st.button("Generate Marathi News"):
+        if len(input_text) < 50:
+            st.error("कृपया बातमी तयार करण्यासाठी किमान ५० अक्षरे प्रविष्ट करा.")
+        else:
+            lang = detect(input_text)
+            if lang != "mr":
+                st.warning("कृपया मराठीत माहिती द्या.")
+            else:
+                with st.spinner("कृपया थांबा, आम्ही मराठी बातमी लेख तयार करत आहोत..."):
+                    chain = prompt_bullet | chat_bullet
+                    response = chain.invoke({"text": input_text})
+
+                    # Check if response has the content attribute
+                    if hasattr(response, 'content'):
+                        result = response.content
+                    else:
+                        result = str(response)
+
+                    # Remove extra blank lines
+                    result = "\n".join(line for line in result.splitlines() if line.strip())
+
+                    # Display the result
+                    st.subheader("मराठी मजकूर तयार झाला आहे, कृपया खाली दिलेल्या बटणावर क्लिक करून डाउनलोड करा.")
+                    st.download_button(
+                        label="Download Response",
+                        data=result,
+                        file_name="generated_marathi_news.txt",
+                        mime="text/plain")
