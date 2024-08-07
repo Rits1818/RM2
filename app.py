@@ -41,8 +41,8 @@ system_bullet_151_200="""You are an editor for a Marathi newspaper. Generate a c
  
 system_bullet_201_more="""You are an editor for a Marathi newspaper. Generate a clear and detailed news article in Marathi based on the provided information. Ensure the article is factually accurate and includes a thorough explanation of the events described. Aim for a length of approximately 250 or more words, and avoid repetition. Add any relevant factual details to provide a comprehensive view of the situation. The final article should be natural, coherent, and informative."""
 
-system_tags = """You are an expert in SEO and keyword optimization. I need your help to generate a list of highly relevant SEO tags for an English news article. 
-The SEO tags should capture various aspects of the article's topic to enhance its search engine ranking. Please ensure the tags are comprehensive, cover different angles of the content, and are naturally integrated without appearing forced. Provide the tags in English, formatted as a list."""
+system_tags = """You are an expert in SEO and keyword optimization. I need your help to generate a list of highly relevant SEO tags for an Marathi news article. from marathi news provided.
+The SEO tags should capture various aspects of the article's topic to enhance its search engine ranking. Please ensure the tags are comprehensive, cover different angles of the content, and are naturally integrated without appearing forced. Provide the tags in English only, formatted as a list."""
 
 human = "{text}"
 
@@ -112,13 +112,14 @@ if option == "SEO keywords तयार करण्यासाठी मरा
                     else:
                         result = str(response)
 
-                    
+                    # Prepare the combined text
+                    combined_result = f"Input Text:\n{input_text}\n\nOutput Keywords:\n{result}"
 
                     # Display the result
                     st.subheader("SEO keywords तयार झाले आहेत, कृपया खाली दिलेल्या बटणावर क्लिक करून डाउनलोड करा.")
                     st.download_button(
                         label="Download Response",
-                        data=result,
+                        data=combined_result,
                         file_name="generated_seo_keywords.txt",
                         mime="text/plain")
                     
@@ -146,12 +147,13 @@ elif option == "Enter English News Text to Translate to Marathi":
 
                     # Remove extra blank lines
                     result = "\n".join(line for line in result.splitlines() if line.strip())
-
+                    
+                    combined_result = f"Input Text:\n{input_text}\n\nGenerated Marathi News:\n{result}"
                     # Display the result
                     st.subheader("The output has been generated, please download by clicking the button below.")
                     st.download_button(
                         label="Download Response",
-                        data=result,
+                        data=combined_result,
                         file_name="generated_marathi_news.txt",
                         mime="text/plain")
                     
@@ -178,6 +180,7 @@ elif option == "मराठी बातमी लेख तयार करण
                         chain = prompt_bullet_201_more | chat_bullet
 
                     response = chain.invoke({"text": input_text})
+                    
 
                     # Check if response has the content attribute
                     if hasattr(response, 'content'):
@@ -187,12 +190,15 @@ elif option == "मराठी बातमी लेख तयार करण
 
                     # Remove extra blank lines
                     result = "\n".join(line for line in result.splitlines() if line.strip())
+                    
+                    combined_result = f"Input Text:\n{input_text}\n\nGenerated Marathi News:\n{result}"
+
 
                     # Display the result
                     st.subheader("तुमच्या माहितीच्या आधारे लेख तयार झाला आहे, कृपया खालील बटणावर क्लिक करून डाउनलोड करा.")
                     st.download_button(
                         label="Download Response",
-                        data=result,
+                        data=combined_result,
                         file_name="generated_marathi_news_article.txt",
                         mime="text/plain")
                     
