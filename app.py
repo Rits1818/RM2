@@ -8,6 +8,7 @@ from langdetect import detect
 # Set the page configuration
 st.set_page_config(
     page_title="Marathi News Generator",  # Title of the web page with smiley
+    page_icon="favicon.png",
     layout="centered"  # Layout of the page
 )
 
