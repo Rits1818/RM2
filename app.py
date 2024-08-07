@@ -5,6 +5,16 @@ from langdetect import detect
 
 # Add logo and header in a container
 
+# Set the page configuration
+st.set_page_config(
+    page_title="Marathi News Generator 😊",  # Title of the web page with smiley
+    page_icon=":smiley:",  # Emoji or path to a favicon
+    layout="centered"  # Layout of the page
+)
+
+
+
+
 # Path to your logo image
 logo_path = "cloudmantra_logo1.png"
 
