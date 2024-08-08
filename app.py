@@ -78,7 +78,7 @@ option = st.selectbox("Select the type of news generation:",
 if option != st.session_state.option:
     st.session_state.option = option
     st.session_state.input_text = ""  # Clear the input text
-    # st.experimental_rerun()  # Refresh the page to clear the input field
+    st.experimental_rerun()  # Refresh the page to clear the input field
 
 # Input text box label based on selected option
 if option == "Enter English News Text to Translate to Marathi":
@@ -190,7 +190,8 @@ elif option == "मराठी बातमी लेख तयार करण
                         result = str(response)
 
                     # Remove extra blank lines
-                    # result = "\n".join(line for line in result.splitlines() if line.strip())
+                    result = "\n".join(line for line in result.splitlines() if line.strip())
+                    result= re.sub(r'\s+', ' ', text).strip()
                     
                     combined_result = f"Input Text:\n{input_text}\n\nGenerated Marathi News:\n{result}"
 
