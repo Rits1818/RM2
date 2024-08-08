@@ -26,7 +26,7 @@ with col1:
     st.image(logo_path, width=110)  # Adjust the width as needed
 
 # Initialize the chat models
-chat_text = ChatGroq(temperature=0.2, model_name="llama-3.1-70b-versatile", max_tokens=8000)
+chat_text = ChatGroq(temperature=0.15, model_name="llama-3.1-70b-versatile", max_tokens=8000)
 chat_bullet = ChatGroq(temperature=0.18, model_name="llama-3.1-70b-versatile", max_tokens=8000)
 chat_evaluate = ChatGroq(temperature=0.5, model_name="llama-3.1-70b-versatile", max_tokens=8000)
 
