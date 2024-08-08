@@ -76,7 +76,7 @@ elif option == "मराठी बातमी लेख तयार करण
 else:  # Handles the third condition
     input_label = "खालील बॉक्समध्ये तुमचा मजकूर प्रविष्ट करा"
 
-input_text = st.text_area(input_label, value=st.session_state.input_text, height=300)
+input_text = st.text_area(input_label, height=300)
 
  
 
