@@ -60,26 +60,13 @@ prompt_tags = ChatPromptTemplate.from_messages([("system", system_tags), ("human
 # Define the Streamlit app
 st.markdown("<h1 style='text-align: center;'>Marathi News Generator</h1>", unsafe_allow_html=True)
 
-# Initialize session state
-if 'option' not in st.session_state:
-    st.session_state.option = "Enter English News Text to Translate to Marathi"
-if 'input_text' not in st.session_state:
-    st.session_state.input_text = ""
-
+ 
 # Selection box for choosing the type of news generation
 option = st.selectbox("Select the type of news generation:", 
                       ["Enter English News Text to Translate to Marathi", 
                        "मराठी बातमी लेख तयार करण्यासाठी मराठीत माहिती द्या",
-                       "SEO keywords तयार करण्यासाठी मराठीत माहिती द्या"],
-                      index=["Enter English News Text to Translate to Marathi", 
-                             "मराठी बातमी लेख तयार करण्यासाठी मराठीत माहिती द्या",
-                             "SEO keywords तयार करण्यासाठी मराठीत माहिती द्या"].index(st.session_state.option))
-
-# Check if the selected option has changed
-if option != st.session_state.option:
-    st.session_state.option = option
-    st.session_state.input_text = ""  # Clear the input text
-    st.experimental_rerun()  # Refresh the page to clear the input field
+                       "SEO keywords तयार करण्यासाठी मराठीत माहिती द्या"])
+ 
 
 # Input text box label based on selected option
 if option == "Enter English News Text to Translate to Marathi":
@@ -91,8 +78,7 @@ else:  # Handles the third condition
 
 input_text = st.text_area(input_label, value=st.session_state.input_text, height=300)
 
-# Update session state with current input
-st.session_state.input_text = input_text
+ 
 
 # Button and result handling based on option selected
 if option == "SEO keywords तयार करण्यासाठी मराठीत माहिती द्या":
@@ -124,9 +110,7 @@ if option == "SEO keywords तयार करण्यासाठी मरा
                         data=combined_result,
                         file_name="generated_seo_keywords.txt",
                         mime="text/plain")
-                    
-                    # Clear the input text after download
-                    st.session_state.input_text = ""
+                     
 
 elif option == "Enter English News Text to Translate to Marathi":
     if st.button("Generate Marathi News"):
@@ -159,8 +143,7 @@ elif option == "Enter English News Text to Translate to Marathi":
                         file_name="generated_marathi_news.txt",
                         mime="text/plain")
                     
-                    # Clear the input text after download
-                    st.session_state.input_text = ""
+                    
 
 elif option == "मराठी बातमी लेख तयार करण्यासाठी मराठीत माहिती द्या":
     if st.button("Generate Marathi News"):
@@ -205,5 +188,4 @@ elif option == "मराठी बातमी लेख तयार करण
                         file_name="generated_marathi_news_article.txt",
                         mime="text/plain")
                     
-                    # Clear the input text after download
-                    st.session_state.input_text = ""
+                    
