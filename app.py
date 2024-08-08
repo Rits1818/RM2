@@ -2,6 +2,7 @@ import streamlit as st
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_groq import ChatGroq
 from langdetect import detect
+import re
 
 # Add logo and header in a container
 
