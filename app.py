@@ -148,7 +148,7 @@ elif option == "Enter English News Text to Translate to Marathi":
 
                     # Remove extra blank lines
                     result = "\n".join(line for line in result.splitlines() if line.strip())
-                    
+                    result= re.sub(r'\s+', ' ', text).strip()
                     combined_result = f"Input Text:\n{input_text}\n\nGenerated Marathi News:\n{result}"
                     # Display the result
                     st.subheader("The output has been generated, please download by clicking the button below.")
