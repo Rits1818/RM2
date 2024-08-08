@@ -84,7 +84,7 @@ input_text = st.text_area(input_label, height=300)
 if option == "SEO keywords तयार करण्यासाठी मराठीत माहिती द्या":
     if st.button("Generate SEO Keywords"):
         if len(input_text) < 50:
-            st.error("कृपया SEO keywords तयार करण्यासाठी किमान ५० शब्द प्रविष्ट करा.")
+            st.error("कृपया SEO keywords तयार करण्यासाठी किमान ५० अक्षर प्रविष्ट करा.")
         else:
             lang = detect(input_text)
             if lang != "mr":
@@ -148,7 +148,7 @@ elif option == "Enter English News Text to Translate to Marathi":
 elif option == "मराठी बातमी लेख तयार करण्यासाठी मराठीत माहिती द्या":
     if st.button("Generate Marathi News"):
         if len(input_text.split()) < 40:
-            st.error("कृपया बातमी तयार करण्यासाठी किमान 40 शब्द प्रविष्ट करा.")
+            st.error("कृपया बातमी तयार करण्यासाठी किमान ४0 शब्द प्रविष्ट करा.")
         else:
             lang = detect(input_text)
             if lang != "mr":
