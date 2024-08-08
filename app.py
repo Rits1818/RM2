@@ -192,7 +192,7 @@ elif option == "मराठी बातमी लेख तयार करण
 
                     # Remove extra blank lines
                     result = "\n".join(line for line in result.splitlines() if line.strip())
-                    result= re.sub(r'\s+', ' ', text).strip()
+                    result= re.sub(r'\s+', ' ', result).strip()
                     
                     combined_result = f"Input Text:\n{input_text}\n\nGenerated Marathi News:\n{result}"
 
