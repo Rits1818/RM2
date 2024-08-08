@@ -31,7 +31,7 @@ chat_bullet = ChatGroq(temperature=0.18, model_name="llama-3.1-70b-versatile", m
 chat_evaluate = ChatGroq(temperature=0.5, model_name="llama-3.1-70b-versatile", max_tokens=8000)
 
 # Define system and human messages for both options
-system_text = """You are an editor for a Marathi newspaper. Your task is to generate accurate Marathi news content from the following English news while preserving the original meaning and context. 
+system_text = """You are an editor for a Marathi newspaper. Your task is to generate accurate Marathi news content from the following English news while preserving the original context. 
 Use the language and style typically used in Marathi newspapers. Ensure that the Marathi text is grammatically correct and culturally appropriate. If certain terms or phrases are commonly used in English, retain them in English.
 Do not exact translate; use your knowledge to adapt the content as needed. """
 
