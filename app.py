@@ -13,7 +13,13 @@ st.set_page_config(
     layout="centered"  # Layout of the page
 )
 
-
+# Add custom CSS to hide the GitHub icon
+hide_github_icon = """
+#GithubIcon {
+  visibility: hidden;
+}
+"""
+st.markdown(hide_github_icon, unsafe_allow_html=True)
 
 
 # Path to your logo image
