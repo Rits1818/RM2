@@ -12,15 +12,7 @@ st.set_page_config(
     page_icon="favicon.png",
     layout="centered"  # Layout of the page
 )
-
- # Hide the footer using CSS
-hide_footer_style = """
-<style>
-footer {visibility: hidden;}
-</style>
-"""
-
-st.markdown(hide_footer_style, unsafe_allow_html=True)
+ 
  
 
 
