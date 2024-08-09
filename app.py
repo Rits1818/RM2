@@ -13,14 +13,7 @@ st.set_page_config(
     layout="centered"  # Layout of the page
 )
  
-# Hide the GitHub logo specifically
-hide_github_logo_style = """
-<style>
-.viewerBadge_container__1QSob {display: none;}
-</style>
-"""
-
-st.markdown(hide_github_logo_style, unsafe_allow_html=True)
+ 
 
 
 
